@@ -58,22 +58,17 @@ public class MainActivity extends AppCompatActivity {
         buttonPrevious = (ImageButton) findViewById(R.id.buttonPrevious);
 
         buttonPrevious.setEnabled(false);
-        // DATOS DE PRUEBA
-        /*Song nSong = new Song(1, "c1", 100, 20, 5);
-        for ( int i = 0 ; i < 20; i++)
-            songList.add(nSong);*/
+
+        frontImage = (ImageView) findViewById(R.id.imageView);  // IMAGE VIEW
+
+
+        aDbHelper = new MyDbHelper(this);   // DB HELPER
 
 
 
-        /* PRUEBA */
 
-        aDbHelper = new MyDbHelper(this);
-
-        // PRUEBA DE IMAGEN
-
-        frontImage = (ImageView) findViewById(R.id.imageView);
-
-
+        // PRUEBA
+        /*
         Album nAlbum = new Album (1, "Let It Be", "The Beatles", 8, 5, 1970, "letitbe");
         aDbHelper.insertALBUM(nAlbum);
 
@@ -83,14 +78,22 @@ public class MainActivity extends AppCompatActivity {
         nAlbum = new Album (3, "Thriller", "Michael Jackson", 30, 11, 1982, "thriller");
         aDbHelper.insertALBUM(nAlbum);
 
+        Song nSong = new Song (1, "Wanna Be Startin Something", 6, 3, 3);
+        aDbHelper.insertSONG(nSong);
+        nSong = new Song (2, "Baby Be Mine", 4, 20, 3);
+
+        aDbHelper.insertSONG(nSong);
+        */
         albumList = aDbHelper.loadALBUMS();
+
+
 
         current = 0;
 
         showAlbum();
 
         listAlbumsInLog();
-
+        listSongsInLog();
 
         // Pressess the details button
         buttonDetails = (ImageButton) findViewById(R.id.imageButtonDetails);
@@ -100,9 +103,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                songList = aDbHelper.loadSONGS(getCurrentAlbumId());  // CREATES DE SONGS LIST
+
                 Intent intent = new Intent(MainActivity.this, SongActivity.class);
 
                 intent.putExtra("ListSong", songList);
+
+                intent.putExtra("albumCode", getCurrentAlbumId());
 
                 startActivityForResult(intent, 11);
 
@@ -208,5 +215,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (buttonNext.isEnabled() == false)
             buttonNext.setEnabled(true);
+    }
+
+    public int getCurrentAlbumId ()
+    {
+        return albumList.get(current).getCode();
+
     }
 }

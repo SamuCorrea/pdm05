@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,9 @@ import java.util.List;
 public class SongActivity extends AppCompatActivity {
 
     private ListView listView;
-    private ArrayList<Song> list;
+    private ArrayList<Song> songList;
 
+    int albumCode;
     ImageButton buttonNewSong;
 
 
@@ -28,11 +27,12 @@ public class SongActivity extends AppCompatActivity {
         Intent data = getIntent();
 
 
-        list = data.getParcelableArrayListExtra("ListSong");
+        songList = data.getParcelableArrayListExtra("ListSong");
+        albumCode = data.getIntExtra("albumCode", 0);
 
         this.listView = (ListView) findViewById(R.id.listView);
 
-        List <Song> items = list;
+        List <Song> items = songList;
 
         this.listView.setAdapter(new SongAdapter(this, items));
 
@@ -49,7 +49,7 @@ public class SongActivity extends AppCompatActivity {
                 Intent intent = new Intent(SongActivity.this, AddSongActivity.class);
 
 
-                intent.putExtra("cod", list.get(0).getAlbumCode());
+                intent.putExtra("albumCode", albumCode);
 
                 startActivityForResult(intent, 21);
 
@@ -59,4 +59,22 @@ public class SongActivity extends AppCompatActivity {
 
     }
 
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {                    // ON ACTIVITY RESULT
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if ((resultCode == RESULT_OK) && (requestCode == 21)) { // ADDS NEW SONG
+
+            Song nSong = data.getParcelableExtra("nSong");
+
+            MyDbHelper aDbHelper = new MyDbHelper(this);
+
+            aDbHelper.insertSONG(nSong);
+
+            songList.add(nSong);
+
+            this.listView.setAdapter(new SongAdapter(this, songList));
+        }
+    }
 }

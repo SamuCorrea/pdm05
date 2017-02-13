@@ -18,7 +18,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     private static final String CREATE_ALBUMS ="CREATE TABLE IF NOT EXISTS albums " +
             " (_id INTEGER PRIMARY KEY, title TEXT, author TEXT, dd INTEGER, mm INTEGER, YYYY INTEGER, img TEXT)";
     private static final String CREATE_SONGS ="CREATE TABLE IF NOT EXISTS songs " +
-            " (_id INTEGER PRIMARY KEY, title TEXT, mm INTEGER, ss INTEGER, album_id INTEGER, FOREIGN KEY (album_id) REFERENCES albums)";
+            " (_id INTEGER, title TEXT, mm INTEGER, ss INTEGER, album_id INTEGER, FOREIGN KEY (album_id) REFERENCES albums, PRIMARY KEY (_id, album_id))";
 
 
     public MyDbHelper (Context context) {
@@ -117,11 +117,17 @@ public class MyDbHelper extends SQLiteOpenHelper {
     }
 
 
-    public int lastSONGS () {                                                                      // LAST SONGS
+    public int lastSONGS (int albumCode) {                                                                      // LAST SONGS
         SQLiteDatabase db = getWritableDatabase();
         int count=0;
         if (db != null) {
-            Cursor mCount= db.rawQuery("SELECT MAX(_ID) FROM songs", null);
+            Cursor mCount= db.rawQuery("SELECT MAX(_ID) FROM songs WHERE album_id = "+albumCode, null);
+            if(mCount.getCount() == 0)
+            {
+                mCount.close();
+                db.close();
+                return 0;
+            }
             mCount.moveToFirst();
             count= mCount.getInt(0);
             mCount.close();
@@ -222,12 +228,14 @@ public class MyDbHelper extends SQLiteOpenHelper {
         ArrayList<Song> songList = new ArrayList<Song>();
         String[] valores_recuperar = {"_id", "title", "mm", "ss", "album_id"};
         String[] args = new String[] {String.valueOf(aID)};
-        Cursor c = db.query("songs", valores_recuperar, "_id=?", args , null, null, null, null);
+        Cursor c = db.query("songs", valores_recuperar, "album_id=?", args , null, null, null, null);
         c.moveToFirst();
-        do {
-            Song song = new Song (c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4));
-            songList.add(song);
-        } while (c.moveToNext());
+        if (c.getCount() != 0) {
+            do {
+                Song song = new Song(c.getInt(0), c.getString(1), c.getInt(2), c.getInt(3), c.getInt(4));
+                songList.add(song);
+            } while (c.moveToNext());
+        }
         db.close();
         c.close();
         return songList;

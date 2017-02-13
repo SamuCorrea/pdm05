@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/icono"
+        android:layout_marginTop="19dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="22dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewTitle"
+        android:layout_below="@+id/buttonPrevious"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_media_previous"
+        android:id="@+id/buttonPrevious"
+        android:onClick="previous (MainActivity)"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_marginStart="20dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:id="@+id/imageButtonAdd"
+        android:layout_marginEnd="12dp"
+        android:layout_alignTop="@+id/textViewTitle"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        android:id="@+id/imageButtonDel"
+        android:cropToPadding="true"
+        android:layout_below="@+id/imageButtonAdd"
+        android:layout_alignStart="@+id/imageButtonAdd"
+        android:layout_marginTop="18dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_media_next"
+        android:id="@+id/buttonNext"
+        android:onClick="next (MainActivity)"
+        android:layout_above="@+id/textViewTitle"
+        android:layout_alignStart="@+id/imageButtonAdd" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_search"
+        android:id="@+id/imageButtonDetails"
+        android:layout_marginEnd="67dp"
+        android:layout_alignTop="@+id/buttonNext"
+        android:layout_toStartOf="@+id/buttonNext" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewDate"
+        android:layout_below="@+id/imageButtonAdd"
+        android:layout_alignStart="@+id/textViewTitle" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewAuthor"
+        android:layout_alignBottom="@+id/imageButtonDel"
+        android:layout_alignStart="@+id/textViewDate" />
+
+</RelativeLayout>

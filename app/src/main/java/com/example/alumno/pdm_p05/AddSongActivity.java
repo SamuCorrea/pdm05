@@ -1,11 +1,10 @@
 package com.example.alumno.pdm_p05;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
@@ -14,8 +13,8 @@ public class AddSongActivity extends AppCompatActivity {
 
     EditText editTextTitle;
 
-    private int songs;
-    private int codAlbum;
+    private int lastCode;
+    private int albumCode;
 
     NumberPicker numberPickerMm, numberPickerSs;
 
@@ -35,7 +34,7 @@ public class AddSongActivity extends AppCompatActivity {
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 
-        codAlbum = data.getIntExtra("cod", 1);
+        albumCode = data.getIntExtra("albumCode", 1);
 
     }
 
@@ -63,24 +62,32 @@ public class AddSongActivity extends AppCompatActivity {
 
         MyDbHelper aDbHelper = new MyDbHelper(this);
 
-        songs = aDbHelper.lastSONGS();
+        lastCode = aDbHelper.lastSONGS(albumCode);
 
-        nSong = new Song((songs + 1),
+        nSong = new Song((lastCode + 1),
                 editTextTitle.getText().toString(),
                 Integer.parseInt(nums[numberPickerMm.getValue()]),
                 Integer.parseInt(nums[numberPickerSs.getValue()]),
-                codAlbum
+                albumCode
         );
 
-        aDbHelper.insertSONG(nSong);
+        //aDbHelper.insertSONG(nSong);
+
+        Intent data = new Intent();
+
+        data.putExtra("nSong", (Parcelable) nSong);
+
+        setResult(RESULT_OK, data);
+
+        finish();
 
         /*Log.d("NUEVOS DATOS", (songs + 1) + "-" +
                 editTextTitle.getText().toString() + "-" +
                 Integer.parseInt(nums[numberPickerMm.getValue()]) + "-" +
                 Integer.parseInt(nums[numberPickerSs.getValue()]) + "-" +
-                codAlbum);*/
+                albumCode);*/
 
-        finish();
+
     }
 
 }

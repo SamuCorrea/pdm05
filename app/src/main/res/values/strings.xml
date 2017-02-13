@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PDM-P05</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="date">Date</string>
+    <string name="Inserttitle">Inser ttitle</string>
+    <string name="InsertAuthor">Insert the author</string>
+    <string name="InsertDuration">Insert the duration</string>
 </resources>
