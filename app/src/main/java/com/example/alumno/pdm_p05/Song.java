@@ -1,32 +1,86 @@
 package com.example.alumno.pdm_p05;
 
-import java.sql.Time;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 
 /**
  * Created by alumno on 7/02/17.
  */
 
-public class Song {
+public class Song implements Parcelable, Serializable {
 
     // ATTRIBS
 
     private int trackNumber;
     private String title;
-    private Time duration;
-    private String albumTitle;
+    private int mm;
+    private int ss;
+    private int albumCode;
 
     // CONSTRUCTOR
 
-    public Song (int trackNumber, String title, Time duration, String albumTitle)
+    public Song (int trackNumber, String title, int mm, int ss, int albumCode)
     {
         this.trackNumber = trackNumber;
         this.title = title;
-        this.duration = duration;
-        this.albumTitle = albumTitle;
+        this.setMm(mm);
+        this.setSs(ss);
+        this.setAlbumCode(albumCode);
+
+    }
+
+    public Song(Parcel p) {
+
+        readFromParcel(p);
 
     }
 
     // METHODS
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(title);
+        dest.writeInt(mm);
+        dest.writeInt(ss);
+
+    }
+    private void readFromParcel(Parcel in) {
+
+        title = in.readString();
+        mm = in.readInt();
+        ss = in.readInt();
+
+    }
+
+
+    // METHODS FOR LIST
+
+    public static final Parcelable.Creator<Song> CREATOR
+            = new Parcelable.Creator<Song>() {
+        public Song createFromParcel(Parcel in) {
+
+            return new Song(in);
+        }
+
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
+
+
+
+
+
+
 
     // GETTERS && SETTERS
 
@@ -46,19 +100,28 @@ public class Song {
         this.title = title;
     }
 
-    public Time getDuration() {
-        return duration;
+
+    public int getMm() {
+        return mm;
     }
 
-    public void setDuration(Time duration) {
-        this.duration = duration;
+    public void setMm(int mm) {
+        this.mm = mm;
     }
 
-    public String getAlbumTitle() {
-        return albumTitle;
+    public int getSs() {
+        return ss;
     }
 
-    public void setAlbumTitle(String albumTitle) {
-        this.albumTitle = albumTitle;
+    public void setSs(int ss) {
+        this.ss = ss;
+    }
+
+    public int getAlbumCode() {
+        return albumCode;
+    }
+
+    public void setAlbumCode(int albumCode) {
+        this.albumCode = albumCode;
     }
 }

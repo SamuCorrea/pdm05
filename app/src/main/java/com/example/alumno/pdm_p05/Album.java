@@ -1,5 +1,7 @@
 package com.example.alumno.pdm_p05;
 
+import android.content.ContentValues;
+
 import java.util.Calendar;
 
 /**
@@ -13,20 +15,28 @@ public class Album {
     private int code;
     private String title;
     private String author;
-    private Calendar dateRelease;
-
+    private int dd;
+    private int mm;
+    private int yyyy;
+    private String image_id;
 
     // CONSTRUCTOR
 
-    public Album (int code, String title, String author, Calendar date)
+    public Album (int code, String title, String author, int dd, int mm, int yyyy, String image_id)
     {
         this.code = code;
         this.title = title;
         this.author = author;
-        this.dateRelease = date;
+        this.dd = dd;
+        this.mm = mm;
+        this.yyyy = yyyy;
+        this.setImage_id(image_id);
     }
 
+    public Album () {
 
+
+    }
     // METHODS
 
 
@@ -56,11 +66,38 @@ public class Album {
         this.author = author;
     }
 
-    public Calendar getDateRelease() {
-        return dateRelease;
+
+    public String getImage_id() {
+        return image_id;
     }
 
-    public void setDateRelease(Calendar dateRelease) {
-        this.dateRelease = dateRelease;
+    public void setImage_id(String image_id) {
+        this.image_id = image_id;
     }
+
+
+    public int getDd() {
+        return dd;
+    }
+
+    public void setDd(int dd) {
+        this.dd = dd;
+    }
+
+    public int getMm() {
+        return mm;
+    }
+
+    public void setMm(int mm) {
+        this.mm = mm;
+    }
+
+    public int getYyyy() {
+        return yyyy;
+    }
+
+    public void setYyyy(int yyyy) {
+        this.yyyy = yyyy;
+    }
+
 }
