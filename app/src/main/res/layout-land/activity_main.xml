@@ -51,7 +51,8 @@
         android:cropToPadding="true"
         android:layout_below="@+id/imageButtonAdd"
         android:layout_alignStart="@+id/imageButtonAdd"
-        android:layout_marginTop="18dp" />
+        android:layout_marginTop="18dp"
+        android:onClick="deleteCurrentAlbum" />
 
     <ImageButton
         android:layout_width="wrap_content"

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by alumno on 7/02/17.
  */
 
-public class Song implements Parcelable, Serializable {
+public class Song implements Parcelable {
 
     // ATTRIBS
 
@@ -51,6 +51,8 @@ public class Song implements Parcelable, Serializable {
         dest.writeString(title);
         dest.writeInt(mm);
         dest.writeInt(ss);
+        dest.writeInt(trackNumber);
+        dest.writeInt(albumCode);
 
     }
     private void readFromParcel(Parcel in) {
@@ -58,6 +60,8 @@ public class Song implements Parcelable, Serializable {
         title = in.readString();
         mm = in.readInt();
         ss = in.readInt();
+        trackNumber = in.readInt();
+        albumCode = in.readInt();
 
     }
 

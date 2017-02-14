@@ -32,6 +32,7 @@ public class AddSongActivity extends AppCompatActivity {
         numberPickerMm = numPicker((NumberPicker)findViewById(R.id.numberPickerMm));
         numberPickerSs = numPicker((NumberPicker)findViewById(R.id.numberPickerSs));
 
+
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
 
         albumCode = data.getIntExtra("albumCode", 1);
@@ -48,6 +49,7 @@ public class AddSongActivity extends AppCompatActivity {
 
         np.setMinValue(0);
         np.setMaxValue(59);
+
         np.setDisplayedValues(nums);
 
         return np;
@@ -71,11 +73,13 @@ public class AddSongActivity extends AppCompatActivity {
                 albumCode
         );
 
-        //aDbHelper.insertSONG(nSong);
+
+        aDbHelper.insertSONG(nSong);
+
 
         Intent data = new Intent();
 
-        data.putExtra("nSong", (Parcelable) nSong);
+        data.putExtra("nSong", nSong);
 
         setResult(RESULT_OK, data);
 

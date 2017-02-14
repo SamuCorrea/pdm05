@@ -2,13 +2,14 @@ package com.example.alumno.pdm_p05;
 
 import android.content.ContentValues;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * Created by alumno on 7/02/17.
  */
 
-public class Album {
+public class Album implements Serializable {
 
     // ATTRIBS
 

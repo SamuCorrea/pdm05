@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class MyDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "mibasedatos4.db";
+    private static final String DATABASE_NAME = "mibasedatos11.db";
     private static final String CREATE_ALBUMS ="CREATE TABLE IF NOT EXISTS albums " +
             " (_id INTEGER PRIMARY KEY, title TEXT, author TEXT, dd INTEGER, mm INTEGER, YYYY INTEGER, img TEXT)";
     private static final String CREATE_SONGS ="CREATE TABLE IF NOT EXISTS songs " +
@@ -128,9 +128,11 @@ public class MyDbHelper extends SQLiteOpenHelper {
                 db.close();
                 return 0;
             }
-            mCount.moveToFirst();
-            count= mCount.getInt(0);
-            mCount.close();
+            else {
+                mCount.moveToFirst();
+                count = mCount.getInt(0);
+                mCount.close();
+            }
         }
         db.close();
         return count;
@@ -156,6 +158,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.close();
         return(salida>0);
     }
+
+
 
     public boolean insertSONG(Song song) {                                                        // INSERT SONG
         long salida=0;
@@ -190,6 +194,9 @@ public class MyDbHelper extends SQLiteOpenHelper {
         }
     */
     public boolean  deleteALBUM(int id) {                                                           // DELETE ALBUM BY ID
+
+        deleteAlbumSONGS(id);
+
         SQLiteDatabase db = getWritableDatabase();
         long salida=0;
         if (db != null) {
@@ -199,11 +206,21 @@ public class MyDbHelper extends SQLiteOpenHelper {
         return(salida>0);
     }
 
-    public boolean  deleteSONG(int id) {                                                           // DELETE SONG BY ID
+    public void deleteAlbumSONGS(int id) {                                                          // DELETE SONGS FROM AN ALBUM ID
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            db.execSQL("DELETE FROM songs WHERE album_id = "+id);
+            db.execSQL("VACUUM;");
+        }
+        db.close();
+    }
+
+    public boolean  deleteSONG(int id, int album_id) {                                              // DELETE SONG BY ID
         SQLiteDatabase db = getWritableDatabase();
         long salida=0;
         if (db != null) {
-            salida=db.delete("songs", "_id=" + id, null);
+            db.execSQL("DELETE FROM songs WHERE _id= "+id+" AND album_id="+album_id);
+            db.execSQL("VACUUM;");
         }
         db.close();
         return(salida>0);

@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
         // PRUEBA
         /*
+        aDbHelper.deleteAllSONGS();
+        aDbHelper.deleteAllALBUMS();
+        */
         Album nAlbum = new Album (1, "Let It Be", "The Beatles", 8, 5, 1970, "letitbe");
         aDbHelper.insertALBUM(nAlbum);
 
@@ -78,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
         nAlbum = new Album (3, "Thriller", "Michael Jackson", 30, 11, 1982, "thriller");
         aDbHelper.insertALBUM(nAlbum);
 
+
         Song nSong = new Song (1, "Wanna Be Startin Something", 6, 3, 3);
         aDbHelper.insertSONG(nSong);
         nSong = new Song (2, "Baby Be Mine", 4, 20, 3);
 
         aDbHelper.insertSONG(nSong);
-        */
-        albumList = aDbHelper.loadALBUMS();
 
+        albumList = aDbHelper.loadALBUMS();
 
 
         current = 0;
@@ -171,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showAlbum () {                                                                      // SHOW ALBUM
 
+
         Album currentAlbum = albumList.get(current);
 
         textViewTitle.setText(currentAlbum.getTitle());
@@ -178,8 +182,17 @@ public class MainActivity extends AppCompatActivity {
         textViewDate.setText(currentAlbum.getDd() + "/" + currentAlbum.getMm() + "/" + currentAlbum.getYyyy());
 
         setFrontImage(currentAlbum.getImage_id());
+
     }
 
+    public void showNoData () {
+
+        textViewTitle.setText("No data to show!");
+        textViewAuthor.setText("");
+        textViewDate.setText("");
+
+        setFrontImage(null);
+    }
 
     // NEXT && PREVIOUS                                                                             NEXT  && PREVIOUS CLICK
     public void next (View view) {
@@ -221,5 +234,43 @@ public class MainActivity extends AppCompatActivity {
     {
         return albumList.get(current).getCode();
 
+    }
+
+    public void deleteCurrentAlbum (View view)
+    {
+        int id = getCurrentAlbumId();
+
+        albumList.remove(current);
+
+        aDbHelper.deleteALBUM(id);
+
+
+        if (current == 0)
+        {
+            showAlbum();
+        }
+        else
+        {
+            current--;
+            showAlbum();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {                    // ON ACTIVITY RESULT
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if ((resultCode == RESULT_OK) && (requestCode == 12)) { // ADDS ALBUM
+
+            /*Album nAlbum = data.getParcelableExtra("nAlbum");
+
+            albumList.add(nAlbum);
+            */
+
+            albumList = aDbHelper.loadALBUMS();
+            current = albumList.size()-1;
+            showAlbum();
+
+        }
     }
 }

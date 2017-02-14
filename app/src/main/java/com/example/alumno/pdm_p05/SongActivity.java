@@ -70,8 +70,6 @@ public class SongActivity extends AppCompatActivity {
 
             MyDbHelper aDbHelper = new MyDbHelper(this);
 
-            aDbHelper.insertSONG(nSong);
-
             songList.add(nSong);
 
             this.listView.setAdapter(new SongAdapter(this, songList));
